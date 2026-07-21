@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <path id="arcTop" d="M 36 120 A 84 84 0 0 1 204 120"/>
+    <path id="arcBot" d="M 192 120 A 84 84 0 0 1 48 120"/>
+    <linearGradient id="dia" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0F4C81"/>
+      <stop offset="100%" stop-color="#00AEEF"/>
+    </linearGradient>
+  </defs>
+  <!-- No background fill  transparent -->
+  <circle cx="120" cy="120" r="108" stroke="#0F4C81" stroke-width="4"/>
+  <circle cx="120" cy="120" r="96" stroke="#0F4C81" stroke-width="2.5"/>
+  <circle cx="120" cy="120" r="62" stroke="#0F4C81" stroke-width="3"/>
+
+  <text fill="#0F4C81" font-family="Arial Black, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">BOAZ0Ç0 ÜN0VERS0TES0</textPath>
+  </text>
+  <text fill="#0F4C81" font-family="Arial Black, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="3">
+    <textPath href="#arcBot" startOffset="50%" text-anchor="middle">1863</textPath>
+  </text>
+
+  <circle cx="36" cy="120" r="3.5" fill="#0F4C81"/>
+  <circle cx="204" cy="120" r="3.5" fill="#0F4C81"/>
+
+  <g transform="translate(120 120)">
+    <polygon points="0,-40 40,0 0,40 -40,0" fill="#0F4C81"/>
+    <polygon points="0,2 40,0 0,40 -40,0" fill="#00AEEF"/>
+    <!-- Yin-yang style interlocking curves -->
+    <path fill="#FFFFFF" d="M0,-18 C12,-18 20,-8 20,0 C20,10 10,18 0,18 C-6,18 -10,14 -10,8 C-10,2 -4,-2 0,-2 C4,-2 8,0 8,4 C8,8 4,10 0,10 C-8,10 -14,4 -14,-2 C-14,-12 -8,-18 0,-18Z"/>
+    <path fill="#00AEEF" d="M0,-10 C6,-10 10,-6 10,0 C10,4 6,8 0,8 C-2,8 -4,6 -4,4 C-4,2 -2,0 0,0 C4,0 8,4 8,10 C8,18 4,22 0,22 C-12,22 -20,12 -20,0 C-20,-10 -12,-18 0,-18 C4,-18 8,-16 8,-12 C8,-10 4,-10 0,-10Z" opacity="0"/>
+    <!-- Simpler emblem mark -->
+    <path fill="#FFFFFF" d="M-16,4 C-16,-12 -2,-20 0,-10 C2,-20 16,-12 16,4 C16,16 6,22 0,12 C-6,22 -16,16 -16,4Z"/>
+    <path fill="#00AEEF" d="M-10,2 C-8,-8 0,-6 0,2 C0,-6 8,-8 10,2 C8,12 2,10 0,4 C-2,10 -8,12 -10,2Z"/>
+  </g>
+</svg>

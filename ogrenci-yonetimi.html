@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>&#214;&#287;renci Y&#246;netimi &#8212; &#220;N&#304;-Y&#214;NET&#304;M</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="dashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="portal">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>
+    </div>
+    <div>
+      <p class="brand-name">&#220;N&#304;-Y&#214;NET&#304;M</p>
+      <p class="brand-sub">&#304;dareci Portal&#305;</p>
+    </div>
+  </div>
+  <nav class="menu" aria-label="Ana men&#252;">
+    <a class="menu-item" href="#"><span class="menu-ico">&#9638;</span> Genel Dashboard</a>
+    <a class="menu-item is-active" href="ogrenci-yonetimi.html"><span class="menu-ico">&#128100;</span> &#214;&#287;renci Y&#246;netimi</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#128101;</span> &#304;nsan Kaynaklar&#305;</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#127891;</span> Akademik Kadro</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#127963;</span> Fak&#252;lte & B&#246;l&#252;mler</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#128196;</span> Programlar</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#128202;</span> Raporlama &amp; Analiz</a>
+    <a class="menu-item" href="#"><span class="menu-ico">&#9881;</span> Sistem Ayarlar&#305;</a>
+  </nav>
+  <div class="term-card">
+    <div class="term-ico">&#128197;</div>
+    <div>
+      <p class="term-label">Aktif D&#246;nem</p>
+      <p class="term-value">2025 - 2026 Bahar</p>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">
+      <h1>&#214;&#287;renci Y&#246;netimi Paneli</h1>
+      <p>&#220;niversite &#214;&#287;renci Veri & Analiz Sistemi</p>
+    </div>
+    <label class="search">
+      <span class="search-ico">&#128269;</span>
+      <input type="search" placeholder="&#214;&#287;renci, fak&#252;lte, b&#246;l&#252;m ara..." />
+    </label>
+    <div class="topbar-right">
+      <button type="button" class="icon-round" id="themeToggle" aria-label="Tema degistir" title="Tema">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="icon-moon is-hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-round" aria-label="Bildirimler">&#128276;<span class="badge">4</span></button>
+      <div class="user">
+        <div class="avatar">AY</div>
+        <div>
+          <p class="user-name">Prof. Dr. Ahmet Y&#305;lmaz</p>
+          <p class="user-role">Rekt&#246;r / &#304;dareci</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="content">
+    <section class="kpi-row">
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Toplam &#214;&#287;renci</p><span class="kpi-icon kpi-icon--purple">&#128100;</span></div><p class="kpi-value">16.842</p><p class="kpi-sub">T&#252;m kay&#305;tl&#305; &#246;&#287;renciler</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Aktif &#214;&#287;renci</p><span class="kpi-icon kpi-icon--green">&#10003;</span></div><p class="kpi-value">14.218</p><p class="kpi-sub">%84.4 Toplam kay&#305;t</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Pasif &#214;&#287;renci</p><span class="kpi-icon kpi-icon--orange">&#9208;</span></div><p class="kpi-value">1.124</p><p class="kpi-sub">Kay&#305;t dondurma / izin</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Mezun &#214;&#287;renci</p><span class="kpi-icon kpi-icon--blue">&#127891;</span></div><p class="kpi-value">38.650</p><p class="kpi-sub">Toplam mezun say&#305;s&#305;</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Bu Y&#305;l Kay&#305;t</p><span class="kpi-icon kpi-icon--purple">+</span></div><p class="kpi-value">2.186</p><p class="kpi-sub">2025&#8211;2026 yeni kay&#305;t</p></article>
+    </section>
+    <section class="metric-row">
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Ortalama GPA</p><span class="kpi-icon kpi-icon--blue">&#128200;</span></div><p class="kpi-value">3.12</p><p class="kpi-sub">4.00 &#252;zerinden</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Ortalama Mezuniyet S&#252;resi</p><span class="kpi-icon kpi-icon--orange">&#9201;</span></div><p class="kpi-value">4.6 <small>y&#305;l</small></p><p class="kpi-sub">Lisans programlar&#305;</p></article>
+      <article class="kpi"><div class="kpi-top"><p class="kpi-label">Yabanc&#305; &#214;&#287;renci Oran&#305;</p><span class="kpi-icon kpi-icon--green">&#127760;</span></div><p class="kpi-value">%12.4</p><p class="kpi-sub">T&#252;m aktif &#246;&#287;renciler</p></article>
+    </section>
+    <section class="charts">
+      <article class="card"><header class="card-head"><div><h2>Cinsiyet Da&#287;&#305;l&#305;m&#305;</h2><p>Aktif &#246;&#287;renci k&#305;r&#305;l&#305;m&#305;</p></div></header><div class="chart-box chart-box--sm"><canvas id="chartGender"></canvas></div></article>
+      <article class="card"><header class="card-head"><div><h2>&#214;&#287;renim D&#252;zeyi Da&#287;&#305;l&#305;m&#305;</h2><p>Lisans, y&#252;ksek lisans ve doktora</p></div></header><div class="chart-box chart-box--sm"><canvas id="chartLevel"></canvas></div></article>
+      <article class="card card--wide"><header class="card-head"><div><h2>Fak&#252;ltelere G&#246;re &#214;&#287;renci Say&#305;s&#305;</h2><p>Fak&#252;ltelere g&#246;re aktif &#246;&#287;renci da&#287;&#305;l&#305;m&#305;</p></div></header><div class="chart-box"><canvas id="chartFaculty"></canvas></div></article>
+      <article class="card card--wide"><header class="card-head"><div><h2>B&#246;l&#252;m Baz&#305;nda Yabanc&#305; &#214;&#287;renci Oran&#305;</h2><p>Se&#231;ili b&#246;l&#252;mlerde yabanc&#305; &#246;&#287;renci y&#252;zdesi</p></div></header><div class="chart-box chart-box--donut"><canvas id="chartForeign"></canvas></div></article>
+    </section>
+  </main>
+</div>
+</div>
+<script src="ogrenci-yonetimi.js"></script>
+</body>
+</html>
