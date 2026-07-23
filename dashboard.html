@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üniversite Veri Yönetim Sistemi - İdareci Paneli</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    /* CSS Reset & Variables */
+    :root {
+      /* Color Palette - Dark Mode (Default) */
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(51, 65, 85, 0.8);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --accent-indigo: #6366f1;
+      --accent-indigo-light: #818cf8;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-cyan: #06b6d4;
+
+      --sidebar-width: 260px;
+      --header-height: 72px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: #ffffff;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.2);
+
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.07);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-dim);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* App Container Layout */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .sidebar-header {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .logo-text h2 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, var(--accent-indigo-light), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 14px;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .sidebar-nav a i {
+      font-size: 18px;
+      width: 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .sidebar-nav li.active a,
+    .sidebar-nav a:hover {
+      color: #ffffff;
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.05));
+      border-left: 3px solid var(--accent-indigo);
+    }
+
+    [data-theme="light"] .sidebar-nav li.active a,
+    [data-theme="light"] .sidebar-nav a:hover {
+      color: var(--accent-indigo);
+    }
+
+    .sidebar-nav li.active a i {
+      color: var(--accent-indigo);
+    }
+
+    .sidebar-footer {
+      padding: 18px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .academic-year-badge {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .academic-year-badge i {
+      color: var(--accent-indigo);
+      font-size: 18px;
+    }
+
+    .academic-year-badge .label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .academic-year-badge .value {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Header */
+    .top-header {
+      height: var(--header-height);
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .welcome-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .welcome-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .search-bar {
+      position: relative;
+      width: 260px;
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 9px 16px 9px 40px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-bar input:focus {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .icon-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent-indigo);
+    }
+
+    .icon-btn .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background-color: var(--accent-rose);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 12px;
+      border-radius: 30px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    .user-profile img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info .name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .user-info .role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .profile-arrow {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* Dashboard Body */
+    .dashboard-body {
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* KPI Cards Grid (6 items) */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .kpi-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .kpi-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .icon-indigo { background: rgba(99, 102, 241, 0.15); color: var(--accent-indigo-light); }
+    .icon-emerald { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+    .icon-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .icon-cyan { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .icon-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+    .icon-purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+
+    .kpi-body .kpi-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-trend {
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trend-up { color: var(--accent-emerald); }
+    .trend-neutral { color: var(--text-muted); }
+    .kpi-subtext { font-size: 12px; color: var(--text-dim); }
+
+    /* Monthly Summary Section */
+    .monthly-summary-section {
+      width: 100%;
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .section-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .icon-title {
+      color: var(--accent-indigo);
+      margin-right: 8px;
+    }
+
+    .section-card-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-card-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .summary-item {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .summary-item:hover {
+      border-color: var(--accent-indigo);
+      transform: translateY(-2px);
+    }
+
+    .summary-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .icon-bg-blue { background: rgba(99, 102, 241, 0.12); color: var(--accent-indigo); }
+    .icon-bg-emerald { background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); }
+    .icon-bg-purple { background: rgba(168, 85, 247, 0.12); color: var(--accent-purple); }
+    .icon-bg-amber { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
+
+    .summary-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-count {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Charts Section Layout */
+    .charts-row {
+      display: grid;
+      gap: 24px;
+    }
+
+    .charts-row.grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    }
+
+    .charts-row.single-row {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .chart-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .chart-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .chart-header p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .main-bar-container {
+      height: 340px;
+    }
+
+    .donut-container {
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-header {
+        padding: 0 16px;
+      }
+
+      .dashboard-body {
+        padding: 16px;
+      }
+
+      .search-bar {
+        display: none;
+      }
+
+      .charts-row.grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="logo-text">
+          <h2>ÜNİ-YÖNETİM</h2>
+          <span>İdareci Portalı</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">
+            <a href="#"><i class="fa-solid fa-chart-pie"></i> <span>Genel Dashboard</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-user-graduate"></i> <span>Öğrenci Yönetimi</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-user-tie"></i> <span>Akademik Kadro</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-users-gear"></i> <span>İdari Personel</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-building-columns"></i> <span>Fakülte & Bölümler</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-book-bookmark"></i> <span>Programlar</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-file-invoice"></i> <span>Raporlama & Analiz</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-gear"></i> <span>Sistem Ayarları</span></a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="academic-year-badge">
+          <i class="fa-regular fa-calendar-check"></i>
+          <div>
+            <span class="label">Aktif Dönem</span>
+            <span class="value">2025 - 2026 Bahar</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="welcome-text">
+            <h1>Üniversite Veri Yönetim Paneli</h1>
+            <p>İdari Yönetim Bilgi Sistemi</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Öğrenci, personel, bölüm ara...">
+          </div>
+
+          <button class="icon-btn theme-toggle" id="themeToggle" title="Tema Değiştir">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <div class="notifications-dropdown">
+            <button class="icon-btn notification-btn" id="notifBtn" title="Bildirimler">
+              <i class="fa-solid fa-bell"></i>
+              <span class="badge">3</span>
+            </button>
+          </div>
+
+          <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Prof. Dr. Ahmet Yılmaz">
+            <div class="user-info">
+              <span class="name">Prof. Dr. Ahmet Yılmaz</span>
+              <span class="role">Rektör / İdareci</span>
+            </div>
+            <i class="fa-solid fa-chevron-down profile-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <div class="dashboard-body">
+
+        <!-- 6 Main KPI Cards -->
+        <section class="kpi-grid">
+          <div class="kpi-card text-gradient-indigo">
+            <div class="kpi-header">
+              <span class="kpi-title">Toplam Öğrenci Sayısı</span>
+              <div class="kpi-icon icon-indigo">
+                <i class="fa-solid fa-user-graduate"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">28,450</h3>
+              <div class="kpi-trend trend-up">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span>+%4.2 (Geçen yıla göre)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Akademisyen Sayısı</span>
+              <div class="kpi-icon icon-emerald">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">1,420</h3>
+              <div class="kpi-trend trend-up">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span>+12 bu ay eklendi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Personel Sayısı</span>
+              <div class="kpi-icon icon-amber">
+                <i class="fa-solid fa-users-gear"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">980</h3>
+              <div class="kpi-trend trend-neutral">
+                <i class="fa-solid fa-minus"></i>
+                <span>Stabil kadro</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Fakülte Sayısı</span>
+              <div class="kpi-icon icon-cyan">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">16</h3>
+              <div class="kpi-subtext">
+                <span>12 Lisans, 4 Lisansüstü</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Bölüm Sayısı</span>
+              <div class="kpi-icon icon-rose">
+                <i class="fa-solid fa-diagram-project"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">74</h3>
+              <div class="kpi-subtext">
+                <span>%98 Aktif Eğitim</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Program Sayısı</span>
+              <div class="kpi-icon icon-purple">
+                <i class="fa-solid fa-book-bookmark"></i>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value">142</h3>
+              <div class="kpi-subtext">
+                <span>Ön Lisans, Lisans, Y.Lisans, Doktora</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bu Ayki Özet Bilgiler -->
+        <section class="monthly-summary-section">
+          <div class="section-card">
+            <div class="section-card-header">
+              <div>
+                <h2><i class="fa-solid fa-calendar-minus icon-title"></i> Bu Ayki Özet Bilgiler</h2>
+                <p>Üniversite genelinde bu ay gerçekleşen ana istatistikler ve veriler</p>
+              </div>
+            </div>
+
+            <div class="summary-grid">
+              <div class="summary-item">
+                <div class="summary-icon icon-bg-blue">
+                  <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <div class="summary-details">
+                  <span class="summary-count">1,240</span>
+                  <span class="summary-label">Yeni Kayıt Yaptıran</span>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="summary-icon icon-bg-emerald">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+                <div class="summary-details">
+                  <span class="summary-count">3,150</span>
+                  <span class="summary-label">Mezun Adayı Öğrenci</span>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="summary-icon icon-bg-purple">
+                  <i class="fa-solid fa-newspaper"></i>
+                </div>
+                <div class="summary-details">
+                  <span class="summary-count">84</span>
+                  <span class="summary-label">Yayınlanan Makale / Bildiri</span>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="summary-icon icon-bg-amber">
+                  <i class="fa-solid fa-flask"></i>
+                </div>
+                <div class="summary-details">
+                  <span class="summary-count">42</span>
+                  <span class="summary-label">Yürütülen Ar-Ge Projesi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Grid 1: Fakültelere Göre Öğrenci Sayısı Grafiği -->
+        <section class="charts-row single-row">
+          <div class="chart-card card-full">
+            <div class="chart-header">
+              <div>
+                <h3><i class="fa-solid fa-chart-column icon-title"></i> Fakültelere Göre Öğrenci Sayısı Grafiği</h3>
+                <p>Üniversitedeki 16 fakültenin öğrenci sayıları dağılımı</p>
+              </div>
+            </div>
+            <div class="chart-container main-bar-container">
+              <canvas id="facultyStudentsChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Grid 2: Personel Dağılımı ve Öğrenim Düzeyi Dağılımı -->
+        <section class="charts-row grid-2">
+          <!-- Personel Dağılım Grafiği -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3><i class="fa-solid fa-chart-pie icon-title"></i> Personel Dağılım Grafiği</h3>
+                <p>Akademik unvanlar ve idari personel oranları</p>
+              </div>
+            </div>
+            <div class="chart-container donut-container">
+              <canvas id="staffDistributionChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Öğrenim Düzeyi Dağılım Grafiği -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3><i class="fa-solid fa-chart-donut icon-title"></i> Öğrenim Düzeyi Dağılım Grafiği</h3>
+                <p>Ön Lisans, Lisans, Yüksek Lisans ve Doktora öğrenci oranları</p>
+              </div>
+            </div>
+            <div class="chart-container donut-container">
+              <canvas id="educationLevelChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Theme Toggle Functionality
+      const themeToggleBtn = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-theme', newTheme);
+        
+        // Update theme icon
+        const icon = themeToggleBtn.querySelector('i');
+        if (newTheme === 'light') {
+          icon.className = 'fa-solid fa-sun';
+        } else {
+          icon.className = 'fa-solid fa-moon';
+        }
+
+        // Re-render charts to adapt to color changes
+        updateChartColors(newTheme);
+      });
+
+      // Mobile Menu Toggle
+      const menuToggleBtn = document.getElementById('menuToggle');
+      const sidebar = document.querySelector('.sidebar');
+
+      if (menuToggleBtn) {
+        menuToggleBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
+        });
+      }
+
+      // --- CHART.JS CONFIGURATIONS ---
+
+      // Global Chart Styling Defaults
+      Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+      Chart.defaults.font.size = 12;
+
+      function getTextColor(theme) {
+        return theme === 'light' ? '#475569' : '#94a3b8';
+      }
+
+      function getGridColor(theme) {
+        return theme === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.08)';
+      }
+
+      let currentTheme = htmlElement.getAttribute('data-theme') || 'dark';
+      let textColor = getTextColor(currentTheme);
+      let gridColor = getGridColor(currentTheme);
+
+      // 1. Fakültelere Göre Öğrenci Sayısı Grafiği (Bar Chart)
+      const facultyCtx = document.getElementById('facultyStudentsChart').getContext('2d');
+      
+      const facultyDataAll = {
+        labels: [
+          'Mühendislik Fak.', 
+          'Tıp Fakültesi', 
+          'İktisadi ve İd. B.F.', 
+          'Fen-Edebiyat Fak.', 
+          'Hukuk Fakültesi', 
+          'Eğitim Fakültesi', 
+          'Mimarlık Fakültesi', 
+          'İletişim Fakültesi',
+          'Güzel Sanatlar F.',
+          'Diş Hekimliği F.'
+        ],
+        values: [4850, 3920, 3640, 3120, 2850, 2400, 2100, 1950, 1420, 1200]
+      };
+
+      const facultyStudentsChart = new Chart(facultyCtx, {
+        type: 'bar',
+        data: {
+          labels: facultyDataAll.labels,
+          datasets: [{
+            label: 'Öğrenci Sayısı',
+            data: facultyDataAll.values,
+            backgroundColor: [
+              '#6366f1', '#818cf8', '#a855f7', '#c084fc', 
+              '#06b6d4', '#22d3ee', '#10b981', '#34d399', 
+              '#f59e0b', '#fbbf24'
+            ],
+            borderRadius: 8,
+            borderSkipped: false,
+            barThickness: 28
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1e293b',
+              titleColor: '#f8fafc',
+              bodyColor: '#cbd5e1',
+              padding: 12,
+              cornerRadius: 8,
+              callbacks: {
+                label: function(context) {
+                  return ` Toplam: ${context.parsed.y.toLocaleString('tr-TR')} Öğrenci`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: textColor, font: { weight: '600' } }
+            },
+            y: {
+              grid: { color: gridColor },
+              ticks: { color: textColor },
+              border: { dash: [4, 4] }
+            }
+          }
+        }
+      });
+
+      // 2. Personel Dağılım Grafiği (Donut Chart)
+      const staffCtx = document.getElementById('staffDistributionChart').getContext('2d');
+      const staffDistributionChart = new Chart(staffCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Profesör', 'Doçent', 'Dr. Öğr. Üyesi', 'Araştırma Görevlisi', 'İdari Personel', 'Teknik Personel'],
+          datasets: [{
+            data: [280, 340, 420, 380, 620, 360],
+            backgroundColor: [
+              '#6366f1',
+              '#a855f7',
+              '#06b6d4',
+              '#10b981',
+              '#f59e0b',
+              '#f43f5e'
+            ],
+            borderWidth: 3,
+            borderColor: currentTheme === 'light' ? '#ffffff' : '#1e293b'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                color: textColor,
+                padding: 14,
+                usePointStyle: true,
+                pointStyle: 'circle',
+                font: { weight: '600', size: 12 }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#1e293b',
+              padding: 12,
+              cornerRadius: 8,
+              callbacks: {
+                label: function(context) {
+                  return ` ${context.label}: ${context.parsed.toLocaleString('tr-TR')} Kişi`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // 3. Öğrenim Düzeyi Dağılım Grafiği (Doughnut Chart)
+      const edCtx = document.getElementById('educationLevelChart').getContext('2d');
+      const educationLevelChart = new Chart(edCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Ön Lisans', 'Lisans', 'Yüksek Lisans', 'Doktora'],
+          datasets: [{
+            data: [5400, 18200, 3650, 1200],
+            backgroundColor: [
+              '#3b82f6',
+              '#10b981',
+              '#8b5cf6',
+              '#ec4899'
+            ],
+            borderWidth: 3,
+            borderColor: currentTheme === 'light' ? '#ffffff' : '#1e293b'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                color: textColor,
+                padding: 14,
+                usePointStyle: true,
+                pointStyle: 'circle',
+                font: { weight: '600', size: 12 }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#1e293b',
+              padding: 12,
+              cornerRadius: 8,
+              callbacks: {
+                label: function(context) {
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const percentage = Math.round((context.parsed / total) * 100);
+                  return ` ${context.label}: ${context.parsed.toLocaleString('tr-TR')} Öğrenci (%${percentage})`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Dynamic Theme Update for Charts
+      function updateChartColors(theme) {
+        const newTextColor = getTextColor(theme);
+        const newGridColor = getGridColor(theme);
+        const newBorderColor = theme === 'light' ? '#ffffff' : '#1e293b';
+
+        // Faculty Chart
+        facultyStudentsChart.options.scales.x.ticks.color = newTextColor;
+        facultyStudentsChart.options.scales.y.ticks.color = newTextColor;
+        facultyStudentsChart.options.scales.y.grid.color = newGridColor;
+        facultyStudentsChart.update();
+
+        // Staff Distribution Chart
+        staffDistributionChart.options.plugins.legend.labels.color = newTextColor;
+        staffDistributionChart.data.datasets[0].borderColor = newBorderColor;
+        staffDistributionChart.update();
+
+        // Education Level Chart
+        educationLevelChart.options.plugins.legend.labels.color = newTextColor;
+        educationLevelChart.data.datasets[0].borderColor = newBorderColor;
+        educationLevelChart.update();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üniversite Veri Yönetim Sistemi - Sistem Ayarları</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    /* CSS Reset & Variables */
+    :root {
+      /* Color Palette - Dark Mode (Default) */
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(51, 65, 85, 0.8);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --accent-indigo: #6366f1;
+      --accent-indigo-light: #818cf8;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-cyan: #06b6d4;
+
+      --sidebar-width: 260px;
+      --header-height: 72px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: #ffffff;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.2);
+
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.07);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-dim);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* App Container Layout */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .sidebar-header {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .logo-text h2 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, var(--accent-indigo-light), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 14px;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .sidebar-nav a i {
+      font-size: 18px;
+      width: 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .sidebar-nav li.active a,
+    .sidebar-nav a:hover {
+      color: #ffffff;
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.05));
+      border-left: 3px solid var(--accent-indigo);
+    }
+
+    [data-theme="light"] .sidebar-nav li.active a,
+    [data-theme="light"] .sidebar-nav a:hover {
+      color: var(--accent-indigo);
+    }
+
+    .sidebar-nav li.active a i {
+      color: var(--accent-indigo);
+    }
+
+    .sidebar-footer {
+      padding: 18px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .academic-year-badge {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .academic-year-badge i {
+      color: var(--accent-indigo);
+      font-size: 18px;
+    }
+
+    .academic-year-badge .label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .academic-year-badge .value {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Header */
+    .top-header {
+      height: var(--header-height);
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .welcome-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .welcome-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .icon-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent-indigo);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 12px;
+      border-radius: 30px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    .user-profile img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info .name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .user-info .role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .profile-arrow {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* Dashboard Body */
+    .dashboard-body {
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Settings Container Layout */
+    .settings-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 600px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Settings Sidebar Tabs */
+    .settings-tabs {
+      background: rgba(15, 23, 42, 0.25);
+      border-right: 1px solid var(--border-color);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .settings-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .settings-tab-btn i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .settings-tab-btn.active, .settings-tab-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .settings-tab-btn.active {
+      border-left: 3px solid var(--accent-indigo);
+      color: var(--accent-indigo-light);
+    }
+
+    /* Settings Panel Content */
+    .settings-content {
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .settings-panel {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .settings-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .panel-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .panel-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Form Fields Group */
+    .form-group {
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .form-group.align-start {
+      align-items: flex-start;
+    }
+
+    .form-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-label span {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    .form-control {
+      width: 100%;
+      max-width: 460px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Custom Checkbox Toggle Switches */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--border-color);
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-indigo);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Table styling for roles */
+    .roles-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .roles-table th {
+      padding: 10px 14px;
+      background: var(--bg-primary);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .roles-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .badge-role {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent-indigo-light);
+    }
+
+    /* Theme Cards Layout */
+    .theme-selection-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      gap: 16px;
+    }
+
+    .theme-card {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--bg-primary);
+    }
+
+    .theme-card i {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--text-muted);
+    }
+
+    .theme-card.active {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .theme-card.active i {
+      color: var(--accent-indigo-light);
+    }
+
+    .theme-card span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Buttons Style */
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    .btn-danger {
+      background-color: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--accent-rose);
+    }
+
+    .btn-danger:hover {
+      background-color: var(--accent-rose);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+    }
+
+    .btn-action-small {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-action-small:hover {
+      border-color: var(--accent-indigo);
+      color: var(--accent-indigo-light);
+    }
+
+    /* Settings Footer Action Layout */
+    .settings-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 20px 32px;
+      background: rgba(15, 23, 42, 0.15);
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Toast system */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--accent-emerald);
+      color: var(--text-main);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      transform: translateX(120%);
+      transition: var(--transition);
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    /* Modal dialog style */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .settings-modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 90%;
+      max-width: 500px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .modal-overlay.active .settings-modal {
+      transform: translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--accent-rose);
+    }
+
+    /* Responsive Settings Layout */
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.active { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .mobile-menu-btn { display: block; }
+    }
+
+    @media (max-width: 768px) {
+      .top-header { padding: 0 16px; }
+      .dashboard-body { padding: 16px; }
+      .settings-container { grid-template-columns: 1fr; }
+      .settings-tabs { border-right: none; border-bottom: 1px solid var(--border-color); }
+      .form-group { grid-template-columns: 1fr; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="logo-text">
+          <h2>ÜNİ-YÖNETİM</h2>
+          <span>İdareci Portalı</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="index.html"><i class="fa-solid fa-chart-pie"></i> <span>Genel Dashboard</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-user-graduate"></i> <span>Öğrenci Yönetimi</span></a>
+          </li>
+          <li>
+            <a href="insan_kaynaklari.html"><i class="fa-solid fa-users-gear"></i> <span>İnsan Kaynakları</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-user-tie"></i> <span>Akademik Kadro</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-building-columns"></i> <span>Fakülte & Bölümler</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-book-bookmark"></i> <span>Programlar</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-solid fa-file-invoice"></i> <span>Raporlama & Analiz</span></a>
+          </li>
+          <li class="active">
+            <a href="ayarlar.html"><i class="fa-solid fa-gear"></i> <span>Sistem Ayarları</span></a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="academic-year-badge">
+          <i class="fa-regular fa-calendar-check"></i>
+          <div>
+            <span class="label">Aktif Dönem</span>
+            <span class="value">2025 - 2026 Bahar</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="menuToggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="welcome-text">
+            <h1>Sistem Ayarları</h1>
+            <p>Üniversite Yönetim Paneli Yapılandırma Sayfası</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="icon-btn theme-toggle" id="themeToggle" title="Tema Değiştir">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Prof. Dr. Ahmet Yılmaz">
+            <div class="user-info">
+              <span class="name">Prof. Dr. Ahmet Yılmaz</span>
+              <span class="role">Rektör / İdareci</span>
+            </div>
+            <i class="fa-solid fa-chevron-down profile-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Settings Panel Body -->
+      <div class="dashboard-body">
+        
+        <div class="settings-container">
+          <!-- Left sidebar categories -->
+          <div class="settings-tabs">
+            <button class="settings-tab-btn active" data-target="hesap">
+              <i class="fa-solid fa-user-gear"></i> Hesap Ayarları
+            </button>
+            <button class="settings-tab-btn" data-target="rol-yetki">
+              <i class="fa-solid fa-user-shield"></i> Rol & Yetki Yönetimi
+            </button>
+            <button class="settings-tab-btn" data-target="uni-bilgi">
+              <i class="fa-solid fa-building-columns"></i> Üniversite Bilgileri
+            </button>
+            <button class="settings-tab-btn" data-target="gorunum">
+              <i class="fa-solid fa-palette"></i> Görünüm Ayarları
+            </button>
+            <button class="settings-tab-btn" data-target="veri-yonetimi">
+              <i class="fa-solid fa-database"></i> Veri Yönetimi
+            </button>
+          </div>
+
+          <!-- Right panels content -->
+          <div class="settings-content">
+            
+            <!-- Panel 1: Hesap Ayarları -->
+            <div class="settings-panel active" id="panel-hesap">
+              <div class="panel-header">
+                <h3>Hesap Ayarları</h3>
+                <p>Kişisel şifrenizi, güvenlik doğrulamasını ve oturum işlemlerini yönetin.</p>
+              </div>
+              
+              <!-- Şifre Değiştir -->
+              <div class="form-group align-start">
+                <label class="form-label">Şifre Değiştir
+                  <span>Hesabınızın güvenliği için güçlü bir şifre belirleyin.</span>
+                </label>
+                <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 460px;">
+                  <input type="password" class="form-control" id="oldPass" placeholder="Eski Şifre" style="max-width: 100%;">
+                  <input type="password" class="form-control" id="newPass" placeholder="Yeni Şifre" style="max-width: 100%;">
+                  <input type="password" class="form-control" id="confirmPass" placeholder="Yeni Şifre Tekrar" style="max-width: 100%;">
+                  <button class="btn btn-secondary" id="updatePasswordBtn" style="align-self: flex-start;">Şifreyi Güncelle</button>
+                </div>
+              </div>
+
+              <!-- İki Adımlı Doğrulama -->
+              <div class="form-group" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <label class="form-label">İki Adımlı Doğrulama
+                  <span>Girişlerde ek güvenlik kodu talep eder.</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" id="twoFaToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Oturumu Kapat -->
+              <div class="form-group" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <label class="form-label">Oturumu Sonlandır
+                  <span>Bu cihazdaki aktif oturumunuzu güvenli bir şekilde kapatın.</span>
+                </label>
+                <button class="btn btn-danger" id="logoutBtn" style="justify-self: flex-start;">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Oturumu Kapat
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Rol & Yetki Yönetimi -->
+            <div class="settings-panel" id="panel-rol-yetki">
+              <div class="panel-header">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                  <div>
+                    <h3>Rol & Yetki Yönetimi</h3>
+                    <p>Kullanıcı yetkilerini görüntüleyin, yeni yetkili tanımlayın ve aktif/pasif durumlarını yönetin.</p>
+                  </div>
+                  <button class="btn btn-primary" id="addNewUserBtn" style="font-size:12px; padding: 8px 14px;">
+                    <i class="fa-solid fa-user-plus"></i> Yeni Kullanıcı Ekle
+                  </button>
+                </div>
+              </div>
+
+              <div style="overflow-x: auto; width:100%;">
+                <table class="roles-table">
+                  <thead>
+                    <tr>
+                      <th>Kullanıcı</th>
+                      <th>Rol</th>
+                      <th>Yetki Düzeyi</th>
+                      <th>Durum (Aktif/Pasif)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rolesTableBody">
+                    <!-- Dynamic Data -->
+                    <tr>
+                      <td><strong>Prof. Dr. Ahmet Yılmaz</strong><br><span style="font-size:11px; color:var(--text-muted)">ahmet.yilmaz@uni.edu.tr</span></td>
+                      <td><span class="badge-role">Rektör</span></td>
+                      <td>Tam Yönetici Yetkisi</td>
+                      <td>
+                        <label class="switch">
+                          <input type="checkbox" checked class="status-toggle" data-user="Ahmet Yılmaz">
+                          <span class="slider"></span>
+                        </label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Prof. Dr. Elif Kaya</strong><br><span style="font-size:11px; color:var(--text-muted)">elif.kaya@uni.edu.tr</span></td>
+                      <td><span class="badge-role">Dekan</span></td>
+                      <td>Mühendislik Fakültesi Yönetimi</td>
+                      <td>
+                        <label class="switch">
+                          <input type="checkbox" checked class="status-toggle" data-user="Elif Kaya">
+                          <span class="slider"></span>
+                        </label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Murat Caner</strong><br><span style="font-size:11px; color:var(--text-muted)">murat.caner@uni.edu.tr</span></td>
+                      <td><span class="badge-role">İnsan Kaynakları</span></td>
+                      <td>Personel Veri Görüntüleme & Düzenleme</td>
+                      <td>
+                        <label class="switch">
+                          <input type="checkbox" checked class="status-toggle" data-user="Murat Caner">
+                          <span class="slider"></span>
+                        </label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Selin Aksoy</strong><br><span style="font-size:11px; color:var(--text-muted)">selin.aksoy@uni.edu.tr</span></td>
+                      <td><span class="badge-role">Memur</span></td>
+                      <td>Sadece Okuma (Görüntüleme) Yetkisi</td>
+                      <td>
+                        <label class="switch">
+                          <input type="checkbox" class="status-toggle" data-user="Selin Aksoy">
+                          <span class="slider"></span>
+                        </label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Panel 3: Üniversite Bilgileri -->
+            <div class="settings-panel" id="panel-uni-bilgi">
+              <div class="panel-header">
+                <h3>Üniversite Bilgileri</h3>
+                <p>Kurumunuzun resmi adı, iletişim kanalları ve adres verilerini güncelleyin.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Üniversite Resmi Adı</label>
+                <input type="text" class="form-control" value="Ankara Bilim ve Teknoloji Üniversitesi">
+              </div>
+              <div class="form-group">
+                <label class="form-label">İletişim Numarası</label>
+                <input type="text" class="form-control" value="+90 (312) 456 78 90">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Resmi E-Posta Adresi</label>
+                <input type="email" class="form-control" value="iletisim@uni.edu.tr">
+              </div>
+              <div class="form-group align-start">
+                <label class="form-label">Yerleşke Adresi</label>
+                <textarea class="form-control" rows="4" style="resize:vertical;">Çankaya Yerleşkesi, Atatürk Bulvarı No: 120, 06680 Çankaya / Ankara</textarea>
+              </div>
+            </div>
+
+            <!-- Panel 4: Görünüm Ayarları -->
+            <div class="settings-panel" id="panel-gorunum">
+              <div class="panel-header">
+                <h3>Görünüm Ayarları</h3>
+                <p>Arayüz temasını ve sistem dilini tercihlerinize göre uyarlayın.</p>
+              </div>
+              <div class="form-group align-start">
+                <label class="form-label">Tema Tercihi</label>
+                <div class="theme-selection-grid">
+                  <div class="theme-card active" data-theme="dark">
+                    <i class="fa-solid fa-moon"></i>
+                    <span>Koyu Tema</span>
+                  </div>
+                  <div class="theme-card" data-theme="light">
+                    <i class="fa-solid fa-sun"></i>
+                    <span>Aydınlık Tema</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sistem Dili Seçimi</label>
+                <select class="form-control" id="languageSelect">
+                  <option value="tr" selected>Türkçe (TR)</option>
+                  <option value="en">English (EN)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Panel 5: Veri Yönetimi -->
+            <div class="settings-panel" id="panel-veri-yonetimi">
+              <div class="panel-header">
+                <h3>Veri Yönetimi</h3>
+                <p>Sistem yedeklerini takip edin ve verilerinizi dışa aktarma işlemlerini yürütün.</p>
+              </div>
+
+              <!-- Son Yedekleme Tarihi -->
+              <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid var(--border-accent); padding: 20px; border-radius: var(--radius-md); display:flex; align-items:center; gap: 20px; margin-bottom: 30px;">
+                <div style="font-size:32px; color: var(--accent-indigo);"><i class="fa-solid fa-database"></i></div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight:700; margin-bottom:4px;">Son Veritabanı Yedeklemesi</h4>
+                  <p style="font-size: 13px; color: var(--text-muted);">Tarih: <strong id="lastBackupTime" style="color:var(--text-main);">22.07.2026 03:00</strong></p>
+                </div>
+                <button class="btn btn-secondary" id="backupNowBtn" style="margin-left:auto; font-size:12px; padding: 8px 14px;">
+                  <i class="fa-solid fa-rotate"></i> Şimdi Yedekle
+                </button>
+              </div>
+
+              <!-- Veriyi Dışa Aktar -->
+              <div class="form-group align-start">
+                <label class="form-label">Veriyi Dışa Aktar
+                  <span>Öğrenci, personel ve mali verileri toplu formatlarda indirin.</span>
+                </label>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                  <button class="btn btn-secondary btn-export" data-format="CSV">
+                    <i class="fa-solid fa-file-csv" style="color:#10b981; font-size:16px;"></i> CSV Olarak İndir
+                  </button>
+                  <button class="btn btn-secondary btn-export" data-format="PDF">
+                    <i class="fa-solid fa-file-pdf" style="color:#f43f5e; font-size:16px;"></i> PDF Raporu İndir
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="settings-footer" style="margin-top:-28px;">
+          <button class="btn btn-secondary" onclick="window.history.back();">İptal Et</button>
+          <button class="btn btn-primary" id="saveSettingsBtn">Ayarları Kaydet</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Yeni Kullanıcı Ekle Modalı -->
+  <div class="modal-overlay" id="userModal">
+    <div class="settings-modal">
+      <button class="modal-close-btn" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="margin-bottom: 20px; font-size:18px; font-weight:700;"><i class="fa-solid fa-user-plus"></i> Yeni Kullanıcı Ekle</h3>
+      
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Adı Soyadı</label>
+          <input type="text" class="form-control" id="newUserName" style="max-width:100%;">
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">E-Posta</label>
+          <input type="email" class="form-control" id="newUserEmail" style="max-width:100%;">
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Rolü</label>
+          <select class="form-control" id="newUserRole" style="max-width:100%;">
+            <option>Dekan</option>
+            <option>Memur</option>
+            <option>İdari İşler</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Yetki Düzeyi</label>
+          <input type="text" class="form-control" id="newUserPermission" style="max-width:100%;" placeholder="Örn: Sadece Okuma">
+        </div>
+        
+        <button class="btn btn-primary" id="saveNewUserBtn" style="margin-top:10px; width:100%; justify-content:center;">Kullanıcıyı Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container">
+    <div class="toast" id="saveToast">
+      <i class="fa-solid fa-circle-check" style="color: var(--accent-emerald); font-size:16px;"></i>
+      <span id="toastMsg">Sistem ayarları başarıyla kaydedildi!</span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sidebar Menu Toggle
+      const menuToggleBtn = document.getElementById('menuToggle');
+      const sidebar = document.querySelector('.sidebar');
+      if (menuToggleBtn) {
+        menuToggleBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
+        });
+      }
+
+      // Universal Theme Switcher
+      const themeToggleBtn = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+
+      themeToggleBtn.addEventListener('click', () => {
+        toggleTheme();
+      });
+
+      // Settings Tab Switcher System
+      const tabBtns = document.querySelectorAll('.settings-tab-btn');
+      const panels = document.querySelectorAll('.settings-panel');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetPanelId = 'panel-' + btn.getAttribute('data-target');
+          document.getElementById(targetPanelId).classList.add('active');
+        });
+      });
+
+      // Appearance Theme Cards Toggle
+      const themeCards = document.querySelectorAll('.theme-card');
+      themeCards.forEach(card => {
+        card.addEventListener('click', () => {
+          themeCards.forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+
+          const selectedTheme = card.getAttribute('data-theme');
+          htmlElement.setAttribute('data-theme', selectedTheme);
+          updateThemeToggleIcon(selectedTheme);
+        });
+      });
+
+      function toggleTheme() {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-theme', newTheme);
+        
+        updateThemeToggleIcon(newTheme);
+
+        themeCards.forEach(card => {
+          if (card.getAttribute('data-theme') === newTheme) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      }
+
+      function updateThemeToggleIcon(theme) {
+        const icon = themeToggleBtn.querySelector('i');
+        if (theme === 'light') {
+          icon.className = 'fa-solid fa-sun';
+        } else {
+          icon.className = 'fa-solid fa-moon';
+        }
+      }
+
+      // Generic Toast Trigger
+      const saveToast = document.getElementById('saveToast');
+      const toastMsg = document.getElementById('toastMsg');
+
+      function showToast(message, type = 'success') {
+        toastMsg.textContent = message;
+        saveToast.style.borderLeftColor = type === 'success' ? 'var(--accent-emerald)' : 'var(--accent-indigo)';
+        saveToast.querySelector('i').className = type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-info';
+        saveToast.querySelector('i').style.color = type === 'success' ? 'var(--accent-emerald)' : 'var(--accent-indigo-light)';
+        saveToast.classList.add('show');
+        setTimeout(() => {
+          saveToast.classList.remove('show');
+        }, 3000);
+      }
+
+      // Save Global Settings
+      const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+      saveSettingsBtn.addEventListener('click', () => {
+        showToast('Tüm sistem yapılandırmaları başarıyla kaydedildi!');
+      });
+
+      // Update password feedback
+      const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+      updatePasswordBtn.addEventListener('click', () => {
+        const oldPass = document.getElementById('oldPass').value;
+        const newPass = document.getElementById('newPass').value;
+        const confirmPass = document.getElementById('confirmPass').value;
+
+        if(!oldPass || !newPass || !confirmPass) {
+          alert('Lütfen şifre alanlarının tamamını doldurun.');
+          return;
+        }
+
+        if(newPass !== confirmPass) {
+          alert('Yeni şifreler uyuşmuyor.');
+          return;
+        }
+
+        showToast('Kullanıcı şifresi başarıyla değiştirildi.');
+        document.getElementById('oldPass').value = '';
+        document.getElementById('newPass').value = '';
+        document.getElementById('confirmPass').value = '';
+      });
+
+      // Logout simulated trigger
+      const logoutBtn = document.getElementById('logoutBtn');
+      logoutBtn.addEventListener('click', () => {
+        if(confirm('Oturumu kapatmak istediğinize emin misiniz?')) {
+          alert('Oturum kapatılıyor, giriş sayfasına yönlendiriliyorsunuz...');
+        }
+      });
+
+      // Active / Passive Toggle Switch Event Handler
+      const rolesTableBody = document.getElementById('rolesTableBody');
+      rolesTableBody.addEventListener('change', (e) => {
+        if(e.target.classList.contains('status-toggle')) {
+          const userName = e.target.getAttribute('data-user');
+          const isChecked = e.target.checked;
+          const statusText = isChecked ? 'Aktif' : 'Pasif';
+          showToast(`${userName} kullanıcısı ${statusText} duruma getirildi.`, 'info');
+        }
+      });
+
+      // Backup Database
+      const backupNowBtn = document.getElementById('backupNowBtn');
+      backupNowBtn.addEventListener('click', () => {
+        const now = new Date();
+        const dateString = now.toLocaleDateString('tr-TR') + ' ' + now.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+        document.getElementById('lastBackupTime').textContent = dateString;
+        showToast('Yeni veritabanı yedeği alındı.');
+      });
+
+      // Export Button Clicks
+      document.querySelectorAll('.btn-export').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const format = e.currentTarget.getAttribute('data-format');
+          showToast(`Sistem verileri ${format} olarak dışa aktarılıyor ve indiriliyor...`, 'info');
+        });
+      });
+
+      // Add New User Modal Controls
+      const userModal = document.getElementById('userModal');
+      const addNewUserBtn = document.getElementById('addNewUserBtn');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const saveNewUserBtn = document.getElementById('saveNewUserBtn');
+
+      addNewUserBtn.addEventListener('click', () => {
+        userModal.classList.add('active');
+      });
+
+      modalCloseBtn.addEventListener('click', () => {
+        userModal.classList.remove('active');
+      });
+
+      userModal.addEventListener('click', (e) => {
+        if(e.target === userModal) {
+          userModal.classList.remove('active');
+        }
+      });
+
+      saveNewUserBtn.addEventListener('click', () => {
+        const name = document.getElementById('newUserName').value;
+        const email = document.getElementById('newUserEmail').value;
+        const role = document.getElementById('newUserRole').value;
+        const perm = document.getElementById('newUserPermission').value || 'Görüntüleme Yetkisi';
+
+        if(!name || !email) {
+          alert('Lütfen Adı Soyadı ve E-Posta alanlarını doldurunuz.');
+          return;
+        }
+
+        // Add row to table
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${name}</strong><br><span style="font-size:11px; color:var(--text-muted)">${email}</span></td>
+          <td><span class="badge-role">${role}</span></td>
+          <td>${perm}</td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" checked class="status-toggle" data-user="${name}">
+              <span class="slider"></span>
+            </label>
+          </td>
+        `;
+        rolesTableBody.appendChild(tr);
+
+        // Reset inputs and close modal
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserEmail').value = '';
+        document.getElementById('newUserPermission').value = '';
+        userModal.classList.remove('active');
+
+        showToast(`${name} kullanıcısı başarıyla listeye eklendi.`);
+      });
+    });
+  </script>
+</body>
+</html>
