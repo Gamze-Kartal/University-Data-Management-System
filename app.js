@@ -166,7 +166,7 @@ loginForm.addEventListener("submit", (e) => {
 
   setTimeout(() => {
     btn.disabled = false;
-    window.location.href = "ogrenci-yonetimi.html";
+    window.location.href = "dashboard.html";
   }, 800);
 });
 
